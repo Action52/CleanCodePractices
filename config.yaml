@@ -1,0 +1,99 @@
+# This file stores the configurations that are used commonly in the
+# churn library.
+
+logging:
+  log_filename: "logs/results.log"
+  log_level: "INFO"
+  log_mode: "w"
+  log_format: "%(name)s - %(levelname)s - %(message)s"
+
+cat_columns:
+    - 'Gender'
+    - 'Education_Level'
+    - 'Marital_Status'
+    - 'Income_Category'
+    - 'Card_Category'
+
+quant_columns:
+    - 'Customer_Age'
+    - 'Dependent_count'
+    - 'Months_on_book'
+    - 'Total_Relationship_Count'
+    - 'Months_Inactive_12_mon'
+    - 'Contacts_Count_12_mon'
+    - 'Credit_Limit'
+    - 'Total_Revolving_Bal'
+    - 'Avg_Open_To_Buy'
+    - 'Total_Amt_Chng_Q4_Q1'
+    - 'Total_Trans_Amt'
+    - 'Total_Trans_Ct'
+    - 'Total_Ct_Chng_Q4_Q1'
+    - 'Avg_Utilization_Ratio'
+
+eda:
+  churn_histogram: "churn_histogram.jpg"
+  customer_age: "customer_age_histogram.jpg"
+  marital_status: "normalized_marital_status_counts.jpg"
+  trans_count: "total_trans_count.jpg"
+  correlations: "correlations.jpg"
+
+keep_cols:
+  - 'Customer_Age'
+  - 'Dependent_count'
+  - 'Months_on_book'
+  - 'Total_Relationship_Count'
+  - 'Months_Inactive_12_mon'
+  - 'Contacts_Count_12_mon'
+  - 'Avg_Open_To_Buy'
+  - 'Total_Amt_Chng_Q4_Q1'
+  - 'Total_Trans_Amt'
+  - 'Total_Trans_Ct'
+  - 'Total_Ct_Chng_Q4_Q1'
+  - 'Avg_Utilization_Ratio'
+  - 'Gender_Churn'
+  - 'Education_Level_Churn'
+  - 'Marital_Status_Churn'
+  - 'Income_Category_Churn'
+  - 'Card_Category_Churn'
+
+train_model:
+  random_forest:
+    args:
+      random_state: 42
+    grid_search:
+      param_grid:
+        n_estimators:
+          - 200
+          - 500
+        max_features:
+          - 'auto'
+          - 'sqrt'
+        max_depth:
+          - 4
+          - 5
+          - 100
+        criterion:
+          - 'gini'
+          - 'entropy'
+      cv: 5
+    save_file: './models/rfc_model.pkl'
+  logistic_regression:
+    args:
+      solver: 'lbfgs'
+      max_iter: 3000
+    save_file: './models/logistic_model.pkl'
+
+report:
+  text_args:
+    fontdict:
+      fontsize: 10
+    fontproperties: 'monospace'
+  save_file:
+    random_forest: './images/results/report_random_forest.jpg'
+    logistic_regression: './images/results/report_logistic_regression.jpg'
+
+results:
+  report_random_forest: 'report_random_forest.jpg'
+  report_logistic_regression: 'report_logistic_regression.jpg'
+  roc_curves: 'roc_curves.jpg'
+  feature_importance: 'feature_importances.jpg'
