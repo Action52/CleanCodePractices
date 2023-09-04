@@ -18,7 +18,7 @@ def load_config(path: str) -> dict:
     Loads the configuration file in yaml format.
 
     Args:
-        pth (str): The path to the configuration file. i.e: "~/config.yaml"
+        path (str): The path to the configuration file. i.e: "~/config.yaml"
 
     Returns:
         dict: Dict with the keys as depicted in the yaml configuration file.
@@ -29,7 +29,8 @@ def load_config(path: str) -> dict:
             return config_data
     except FileNotFoundError as err:
         logging.error(
-            f"ERROR: {err}. The yaml config file was not found in this path: {path}")
+            f"ERROR: {err}. The yaml config file was not found in "
+            f"this path: {path}")
     except yaml.YAMLError as err:
         logging.error(
             f"ERROR: {err}. Something happened while parsing the config file.")
@@ -91,6 +92,22 @@ def train_test_split_df_plugin():
 
 
 def pytest_configure():
+    """
+    Configures the pytest environment.
+    """
+    folders = [
+        "images"
+        "images/eda",
+        "images/results",
+        "logs",
+        "models"
+    ]
+
+    for folder in folders:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        else:
+            pass
     pytest.df = df_plugin()
     pytest.encoded_df = encoded_df_plugin()
     pytest.churn_config = config()
